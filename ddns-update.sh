@@ -12,11 +12,13 @@ else
     DNS_IP=$(cat /tmp/dns.txt)
     
     # Get current WAN IP from ifconfig.me
-    curl -s ifconfig.me > /tmp/current.txt
-    CURRENT_IP=$(cat /tmp/current.txt)
-
+    CURRENT_IP=$(curl -s ifconfig.me) 
+    
     # If current IP doesn't match DDNS IP, then script updates DDNS
     if [ $CURRENT_IP != $DNS_IP ]; then
         curl -s -X GET "https://dynamicdns.park-your-domain.com/update?host=$1&domain=$2&password=$3"
+#	echo "Updated: $(date +%T)" >> /home/$USER/script.log
+#    else
+#	echo "No changes: $(date +%T)" >> /home/$USER/script.log
     fi
 fi
