@@ -6,13 +6,11 @@ if [ "$#" -ne 3 ]; then
 
 # Update DDNS entry with Namecheap API
 else
-    # This block gets the IP stored in the DDNS entry and formats it
-    dig +short $1.$2 > /tmp/temp.txt
-    tr -d '\n' < /tmp/temp.txt > /tmp/dns.txt && rm /tmp/temp.txt
-    DNS_IP=$(cat /tmp/dns.txt)
+    # Gets the IP stored in the DDNS entry
+    DNS_IP=$(dig +short $1.$2)
     
     # Get current WAN IP from ifconfig.me
-    CURRENT_IP=$(curl -s ifconfig.me) 
+    CURRENT_IP=$(curl ip.me)
     
     # If current IP doesn't match DDNS IP, then script updates DDNS
     if [ $CURRENT_IP != $DNS_IP ]; then
